@@ -70,8 +70,10 @@ class App extends Component {
 
   onDismiss(id) {
     const isNotId = item => item.objectID !== id;
-    const updatedList = this.state.list.filter(isNotId);
-    this.setState({ list: updatedList });
+    const updatedHits = this.state.result.hits.filter(isNotId);
+    this.setState({
+      result: { ...this.state.result, hits: updatedHits }
+    });
   }
 
   render() {
@@ -110,7 +112,7 @@ const Search = ({ value, onChange, children }) =>
 
 const Table = ({ list, pattern, onDismiss }) =>
   <div className="table">
-    { list.filter(isSearched(searchTerm)).map(item =>
+    { list.filter(isSearched(pattern)).map(item =>
       <div key={item.objectID} className="table-row">
         <span style={{ width: '40%' }}>
           <a href={item.url}>{item.title}</a>
