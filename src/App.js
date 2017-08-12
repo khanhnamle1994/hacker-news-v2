@@ -24,7 +24,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        { list.map(function(item) {
+        { list.map(item =>
           return (
             <div key={item.objectID}>
               <span>
@@ -35,7 +35,7 @@ class App extends Component {
               <span>{item.points}</span>
             </div>
           );
-        })}
+        )}
       </div>
     );
   }
