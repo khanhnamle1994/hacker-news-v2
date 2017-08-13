@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './App.css';
 
 const DEFAULT_QUERY = 'redux';
@@ -68,8 +69,7 @@ class App extends Component {
   }
 
   fetchSearchTopstories(searchTerm, page) {
-    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${\
-page}&${PARAM_HPP}${DEFAULT_HPP}`)
+    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
       .then(response => response.json())
       .then(result => this.setSearchTopstories(result))
       .catch(e => e);
@@ -86,7 +86,7 @@ page}&${PARAM_HPP}${DEFAULT_HPP}`)
     if(this.needsToSearchTopstories(searchTerm)) {
       this.fetchSearchTopstories(searchTerm, DEFAULT_PAGE);
     }
-    
+
     event.preventDefault();
   }
 
@@ -99,7 +99,7 @@ page}&${PARAM_HPP}${DEFAULT_HPP}`)
 
     this.setState({
       results: {
-        ...result,
+        ...results,
         [searchKey]: { hits: updatedHits, page }
       }
     });
@@ -124,11 +124,11 @@ page}&${PARAM_HPP}${DEFAULT_HPP}`)
           </Search>
         </div>
         <Table
-          list={result.hits}
+          list={list}
           onDismiss={this.onDismiss}
         />
         <div className="interactions">
-          <Button onClick={() => this.fetchSearchTopstories(searchKey, page + 1)\}>
+          <Button onClick={() => this.fetchSearchTopstories(searchKey, page + 1)}>
             More
           </Button>
         </div>
@@ -177,24 +177,22 @@ const Table = ({ list, onDismiss }) =>
     )}
   </div>
 
-class Button extends Component {
-  render() {
-    const {
-      onClick,
-      className = '',
-      children,
-    } = this.props;
+Table.propTypes = {
+  list: PropTypes.array.isRequired,
+  onDismiss: PropTypes.func.isRequired,
+};
 
-    return (
-      <button
-        onClick={onClick}
-        className={className}
-        type="button"
-      >
-        {children}
-      </button>
-    );
-  }
-}
+const Button = ({ onClick, className, children }) =>
+  <button
+    onClick={onClick}
+    className={className}
+    type="button"
+  >
+    {children}
+  </button>
+
+Button.defaultProps = {
+  className: '',
+};
 
 export default App;
