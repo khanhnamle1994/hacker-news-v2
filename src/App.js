@@ -34,7 +34,7 @@ const updateSearchTopstoriesState = (hits, page) => (prevState) => {
     ...hits
   ];
 
-  this.setState({
+  return {
     results: {
       ...results,
       [searchKey]: { hits: updatedHits, page }
