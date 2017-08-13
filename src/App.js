@@ -196,3 +196,9 @@ Button.defaultProps = {
 };
 
 export default App;
+
+export {
+  Button,
+  Search,
+  Table,
+};
