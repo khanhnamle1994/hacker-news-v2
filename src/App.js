@@ -12,9 +12,6 @@ const PARAM_SEARCH = 'query=';
 const PARAM_PAGE = 'page=';
 const PARAM_HPP = 'hitsPerPage=';
 
-const Loading = () =>
-  <div>Loading ...</div>
-
 function isSearched(searchTerm) {
   return function(item) {
     return !searchTerm ||
@@ -135,13 +132,11 @@ class App extends Component {
           onDismiss={this.onDismiss}
         />
         <div className="interactions">
-          { isLoading
-            ? <Loading />
-            : <Button
-              onClick={() => this.fetchSearchTopstories(searchKey, page + 1)}>
-              More
-            </Button>
-          }
+          <ButtonWithLoading
+            isLoading={isLoading}
+            onClick={() => this.fetchSearchTopstories(searchKey, page + 1)}>
+            More
+          </ButtonWithLoading>
         </div>
       </div>
     );
@@ -215,6 +210,14 @@ const Button = ({ onClick, className, children }) =>
   >
     {children}
   </button>
+
+const Loading = () =>
+  <div>Loading ...</div>
+
+const withLoading = (Component) => ({ isLoading, ...rest }) =>
+  isLoading ? <Loading /> : <Component { ...rest } />
+
+const ButtonWithLoading = withLoading(Button);
 
 Button.defaultProps = {
   className: '',
